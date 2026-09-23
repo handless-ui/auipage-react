@@ -1,0 +1,48 @@
+{
+  "name": "@auipage/react",
+  "version": "0.1.0-alpha.1",
+  "description": "React版本的智能体UI组件库",
+  "typings": "./types/index.d.ts",
+  "main": "./dist/auipage-react.umd.cjs",
+  "module": "./dist/auipage-react.js",
+  "unpkg": "./dist/auipage-react.iife.js",
+  "jsdelivr": "./dist/auipage-react.iife.js",
+  "sideEffects": false,
+  "scripts": {
+    "dev": "oipage-cli run \"node ./server/index.js\" \"vite\"",
+    "build": "vite build"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/handless-ui/auipage-react.git"
+  },
+  "keywords": [
+    "ui",
+    "page",
+    "agent"
+  ],
+  "author": "zxl20070701",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/handless-ui/auipage-react/issues"
+  },
+  "homepage": "https://github.com/handless-ui/auipage-react#readme",
+  "devDependencies": {
+    "@auipage/agent": "^0.1.0-alpha.1",
+    "@auipage/fetch": "^0.1.0-alpha.1",
+    "@oipage/cli": "^0.2.1",
+    "@types/node": "^26.6.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "~5.5.0",
+    "vite": "^5.3.5"
+  },
+  "dependencies": {
+    "@auipage/core": "^0.1.0-alpha.1",
+    "zustand": "^5.0.14"
+  }
+}
