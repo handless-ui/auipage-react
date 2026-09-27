@@ -153,6 +153,15 @@ function App() {
 createRoot(document.getElementById("app")!).render(<App />);
 ```
 
+### 更多文档
+
+上面的示例只展示了最小可运行结构，下面这些主题在 `docs/` 中分章节展开：
+
+- [适配器详解](docs/adapter.md)：`ChatTransportAdapter` / `MessageHistoryAdapter` / `ThreadListAdapter` 的字段含义与实现要点
+- [组件 API](docs/components.md)：`ChatContent` 与 `ThreadList` 子组件树的结构、props、render-prop 用法
+- [前端工具](docs/tools.md)：`defineTool` 的 `execute` / `render` 协作模式，以及实时态与历史回读态的字段对齐
+- [数据流与状态](docs/runtime.md)：`AuiRuntimeProvider`、zustand store 与 core 编排器之间的关系
+
 ## 版权
 
 MIT License
