@@ -1,6 +1,6 @@
 {
   "name": "@auipage/react",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0",
   "description": "React版本的智能体UI组件库",
   "typings": "./types/index.d.ts",
   "main": "./dist/auipage-react.umd.cjs",
@@ -29,8 +29,8 @@
   },
   "homepage": "https://github.com/handless-ui/auipage-react#readme",
   "devDependencies": {
-    "@auipage/agent": "^0.1.0-alpha.1",
-    "@auipage/fetch": "^0.1.0-alpha.1",
+    "@auipage/agent": "^0.1.0",
+    "@auipage/fetch": "^0.1.0",
     "@oipage/cli": "^0.2.1",
     "@types/node": "^26.6.1",
     "@types/react": "^19.2.17",
@@ -42,7 +42,7 @@
     "vite": "^5.3.5"
   },
   "dependencies": {
-    "@auipage/core": "^0.1.0-alpha.1",
+    "@auipage/core": "^0.1.0",
     "zustand": "^5.0.14"
   }
 }
