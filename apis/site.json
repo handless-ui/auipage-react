@@ -1,0 +1,9 @@
+{
+  "name": "auipage-react",
+  "activeClass": "on",
+  "toc": false,
+  "version": "0.1.0",
+  "license": "MIT",
+  "repo": "https://github.com/handless-ui/auipage-react",
+  "npm": "https://www.npmjs.com/package/@auipage/react"
+}

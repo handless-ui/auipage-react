@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<!-- 本文件由 apis 生成，请勿直接编辑；改 apis 里的页面、模板或 site.json 后运行 npm run docs 重新生成。 -->
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>前端工具 · @auipage/react 文档</title>
+<link rel="icon" href="../assets/img/logo.png">
+<meta name="description" content="defineTool、ToolRenderProps、tool-call 生命周期与历史回读规则。">
+<link rel="stylesheet" href="../assets/css/docs.css?v=6ec71bb4">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+<aside class="rail">
+    <a class="rail-brand" href="../index.html" aria-label="@auipage/react 文档首页">
+      <img class="rail-mark" src="../assets/img/logo.png" alt="@auipage/react" width="36" height="36">
+    </a>
+    <nav class="rail-nav" aria-label="主导航">
+      <a href="../index.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="2.5" width="6" height="6" rx="1"/><rect x="11.5" y="2.5" width="6" height="6" rx="1"/><rect x="2.5" y="11.5" width="6" height="6" rx="1"/><rect x="11.5" y="11.5" width="6" height="6" rx="1"/></svg><em>概览</em></a>
+      <a href="../guide/installation.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3v3M13 3v3M5 6h10v3a5 5 0 0 1-10 0z"/><path d="M10 14v3"/></svg><em>接入</em></a>
+      <a href="../guide/adapter.html" class="on"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3 3 7l7 4 7-4z"/><path d="M3 11l7 4 7-4"/><path d="M3 15l7 4 7-4"/></svg><em>概念</em></a>
+      <a href="../guide/changelog.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3h10v14H5z"/><path d="M8 7h4M8 10h4M8 13h2"/></svg><em>日志</em></a>
+    </nav>
+    <div class="rail-foot">
+      <a class="rail-gh" href="https://github.com/handless-ui/auipage-react" target="_blank" rel="noopener" title="GitHub 仓库"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4 3 10l4 6M13 4l4 6-4 6"/></svg></a>
+      <span class="rail-ver">v0.1.0</span>
+    </div>
+  </aside>
+
+<div class="mobiletop">
+    <a class="m-brand" href="../index.html"><img class="rail-mark" src="../assets/img/logo.png" alt="@auipage/react" width="36" height="36"><span class="m-name">@auipage/react</span></a>
+    <button class="m-burger" type="button" data-drawer="open" aria-controls="drawer" aria-expanded="false" aria-label="打开导航">
+      <i></i><i></i><i></i>
+    </button>
+  </div>
+<div class="scrim" data-drawer="close" hidden></div>
+  <div class="drawer" id="drawer" aria-hidden="true" hidden>
+    <div class="drawer-rail">
+      <button class="drawer-close" type="button" data-drawer="close" aria-label="关闭导航"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6l-12 12"/></svg></button>
+      <a class="rail-brand" href="../index.html"><img class="rail-mark" src="../assets/img/logo.png" alt="@auipage/react" width="36" height="36"></a>
+      <nav class="rail-nav" aria-label="主导航">
+      <a href="../index.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="2.5" width="6" height="6" rx="1"/><rect x="11.5" y="2.5" width="6" height="6" rx="1"/><rect x="2.5" y="11.5" width="6" height="6" rx="1"/><rect x="11.5" y="11.5" width="6" height="6" rx="1"/></svg><em>概览</em></a>
+      <a href="../guide/installation.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3v3M13 3v3M5 6h10v3a5 5 0 0 1-10 0z"/><path d="M10 14v3"/></svg><em>接入</em></a>
+      <a href="../guide/adapter.html" class="on"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3 3 7l7 4 7-4z"/><path d="M3 11l7 4 7-4"/><path d="M3 15l7 4 7-4"/></svg><em>概念</em></a>
+      <a href="../guide/changelog.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3h10v14H5z"/><path d="M8 7h4M8 10h4M8 13h2"/></svg><em>日志</em></a>
+    </nav>
+    </div>
+    <div class="drawer-tree">
+      <div class="drawer-tree-title">文档目录</div>
+      <aside class="tree">
+    <div class="group">开始</div><a href="../index.html" class=""><span class="n">00</span>概览</a><a href="../guide/installation.html" class=""><span class="n">01</span>安装与接入</a>
+    <div class="group">概念</div><a href="../guide/adapter.html" class=""><span class="n">02</span>适配器</a><a href="../guide/components.html" class=""><span class="n">03</span>组件 API</a><a href="../guide/tools.html" class="on"><span class="n">04</span>前端工具</a><a href="../guide/runtime.html" class=""><span class="n">05</span>数据流与状态</a>
+    <div class="group">参考</div><a href="../guide/changelog.html" class=""><span class="n">06</span>更新日志</a>
+  </aside>
+    </div>
+  </div>
+
+<div class="stage">
+<div class="shell">
+<aside class="tree">
+    <div class="group">开始</div><a href="../index.html" class=""><span class="n">00</span>概览</a><a href="../guide/installation.html" class=""><span class="n">01</span>安装与接入</a>
+    <div class="group">概念</div><a href="../guide/adapter.html" class=""><span class="n">02</span>适配器</a><a href="../guide/components.html" class=""><span class="n">03</span>组件 API</a><a href="../guide/tools.html" class="on"><span class="n">04</span>前端工具</a><a href="../guide/runtime.html" class=""><span class="n">05</span>数据流与状态</a>
+    <div class="group">参考</div><a href="../guide/changelog.html" class=""><span class="n">06</span>更新日志</a>
+  </aside>
+
+
+<main class="article">
+<div class="pagehead"><span class="ph-deco" aria-hidden="true"></span><div class="crumbs"><a href="../index.html">文档</a><span class="sep">/</span><span>概念</span><span class="sep">/</span><span>前端工具</span></div>
+<h1><em>Concept 04</em>前端工具</h1>
+<p class="lede">工具让智能体动手做事。后端工具在服务端跑，页面只展示过程；前端工具在浏览器里跑，还能弹出你自己的 React 组件让用户选择。</p>
+<div class="badges"><span class="badge">defineTool</span><span class="badge">ToolRenderProps</span><span class="badge">tool-call</span></div></div>
+
+<section class="block">
+  <div class="block-head"><span class="idx">01</span><h2>defineTool</h2></div>
+  <div class="prose">
+  <div class="code">
+  <div class="code-head"><span class="file">tools/getBrowserTime.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>import { defineTool } from "@auipage/react";
+
+export default defineTool({
+    name: "getBrowserTime",
+    description: "获取当前浏览器所在设备的本地日期与时间",
+    parameters: { type: "object", properties: {}, required: [] },
+    execute() {
+        return new Date().toLocaleString();
+    },
+});</pre></div>
+</div>
+  <div class="table-wrap"><table class="spec">
+  <thead><tr><th>字段</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
+  <tbody><tr><td><code>name</code></td><td><code>string</code></td><td>是</td><td>工具名，对应 <code>description.function.name</code>，模型据此发起调用。</td></tr><tr><td><code>description</code></td><td><code>string</code></td><td>是</td><td>给模型看的功能说明。</td></tr><tr><td><code>parameters</code></td><td><code>object</code></td><td>是</td><td>入参 JSON Schema。</td></tr><tr><td><code>execute</code></td><td><code>(args) =&gt; unknown</code></td><td>否</td><td>页面侧执行函数；缺省时兜底为空执行，让 render 依然能收到 success。</td></tr><tr><td><code>render</code></td><td><code>ComponentType&lt;ToolRenderProps&gt;</code></td><td>否</td><td>工具渲染组件；缺省时该工具退化为纯调用，只显示结果。</td></tr></tbody>
+</table></div>
+  <p style="margin-top:14px">core 对前端工具是无判空调 <code>execute</code> 的，React 版统一兜底为 <code>() =&gt; null</code>，
+  所以只挂 <code>render</code> 的纯交互工具也能正常进入 <code>executing</code> 态。</p>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">02</span><h2>渲染组件的 props</h2></div>
+  <div class="prose">
+  <p>实时态与历史回读态<b>共用同一套字段</b>，避免回读漏字段导致 UI 不一致：</p>
+  <div class="code">
+  <div class="code-head"><span class="file">types.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>interface ToolRenderProps {
+    args: any;                                // 模型解析出的入参
+    result?: any;                             // execute 的结果（异常时为错误对象）
+    status: "pending" | "success" | "error";  // execute 状态
+    uiResult?: unknown;                       // 历史回读：当时交还的结果
+    uiStatus?: "success" | "error";           // 历史回读：交互状态
+    call?: (result: unknown) =&gt; void;         // 实时态：交还结果并结束挂起
+}</pre></div>
+</div>
+  <p style="margin-top:14px">判断态的规则只有一条：</p>
+  <ul>
+    <li><b>有 <code>call</code></b> → 实时态，交互完成后调用 <code>call(result)</code> 把结果交还 core。</li>
+    <li><b>没有 <code>call</code></b> → 历史回读态，用 <code>uiResult</code> / <code>uiStatus</code> 只读展示。</li>
+  </ul>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">03</span><h2>交互式工具示例</h2></div>
+  <div class="prose">
+  <div class="code">
+  <div class="code-head"><span class="file">tools/askFavoriteFruit.tsx</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>const FRUITS = ["苹果", "香蕉", "橙子", "葡萄", "西瓜"];
+
+function AskFavoriteFruitRender({ call, uiResult, result, status }: ToolRenderProps) {
+<span class="c">    // 历史回读：只读展示</span>
+    if (!call) {
+        return &lt;span&gt;已选择：{String(uiResult)}&lt;/span&gt;;
+    }
+
+    const fruits: string[] = status === "success" &amp;&amp; Array.isArray(result) ? result : [];
+
+    return (
+        &lt;div className="fruit-picker"&gt;
+            &lt;div&gt;请选择你喜欢的水果：&lt;/div&gt;
+            {fruits.map(fruit =&gt; (
+                &lt;button key={fruit} type="button" onClick={() =&gt; call(fruit)}&gt;
+                    {fruit}
+                &lt;/button&gt;
+            ))}
+        &lt;/div&gt;
+    );
+}
+
+export default defineTool({
+    name: "askFavoriteFruit",
+    description: "当需要了解用户喜欢什么水果时使用",
+    parameters: { type: "object", properties: {}, required: [] },
+    execute() { return FRUITS; },
+    render: AskFavoriteFruitRender,
+});</pre></div>
+</div>
+  <p style="margin-top:14px">完整链路：<code>execute</code> 拿候选数据 → core 回调 <code>{ render, status, result }</code> →
+  卡片切到 <code>executing</code> 并挂载组件 → 用户点击 → <code>call(fruit)</code> → core 回传
+  <code>response("tool-result", ...)</code> → 再次回调写入 <code>uiResult</code>，组件转为只读态留在页面上。</p>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">04</span><h2>生命周期</h2></div>
+  <div class="prose">
+  <p>一个 tool-call 在 store 里是<b>单个 part</b>，靠稳定 <code>id</code> 贯穿，<code>phase</code> 原地切换：</p>
+  <div class="code">
+  <div class="code-head"><span class="file">phase</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>pending → executing → result</pre></div>
+</div>
+  <div class="table-wrap"><table class="spec">
+  <thead><tr><th>phase</th><th>触发</th><th>界面表现</th><th>call</th><th>uiResult</th></tr></thead>
+  <tbody><tr><td><code>pending</code></td><td>流中首次收到 <code>tool-call</code></td><td>名称 + 入参 + 运行中</td><td>无</td><td>无</td></tr><tr><td><code>executing</code></td><td>带 render 的工具 execute 完成</td><td>挂载 render 组件</td><td>有</td><td>无</td></tr><tr><td><code>result</code></td><td>后端工具 / 无 render 工具结束</td><td>结果卡片</td><td>无</td><td>无</td></tr></tbody>
+</table></div>
+  <p style="margin-top:14px">带 render 的工具在 <code>executing</code> 之后还会再回调一次：
+  <code>call</code> 完成后写入 <code>uiResult</code>、清空 <code>call</code>，phase 仍是 <code>executing</code>，
+  组件自然切到只读态 —— 节点不会重建。</p>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">05</span><h2>历史回读与后端工具</h2></div>
+  <div class="prose">
+  <ul>
+    <li><b>工具仍注册</b>：历史里还原成只读 <code>executing</code> 形态，用 <code>uiResult</code> / <code>uiStatus</code> 驱动。</li>
+    <li><b>工具已下线或无 render</b>：统一降级为 <code>result</code> 形态的结果卡片。</li>
+    <li><b>后端工具</b>：对 React 侧透明，流里同样是 <code>tool-call</code> 片段但没有 <code>render</code>，直接走
+      <code>pending → result</code>，不挂任何组件，业务侧无需注册。</li>
+  </ul>
+  <div class="note" style="margin-top:14px">
+    <b>所以 render 组件必须同时处理两种态。</b>只写实时态、忽略 <code>!call</code> 的分支，
+    历史会话里这块工具就会渲染失败。
+  </div>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">06</span><h2>注册到 Provider</h2></div>
+  <div class="prose">
+  <div class="code">
+  <div class="code-head"><span class="file">App.tsx</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>import getBrowserTime from "./tools/getBrowserTime";
+import askFavoriteFruit from "./tools/askFavoriteFruit";
+
+const tools = [getBrowserTime, askFavoriteFruit];
+
+&lt;AuiRuntimeProvider adapter={adapter} tools={tools}&gt;
+    {/* ... */}
+&lt;/AuiRuntimeProvider&gt;</pre></div>
+</div>
+  <p style="margin-top:14px">运行时会按 <code>description.function.name</code> 建索引，历史回读时据此找回 render 组件。</p>
+</div>
+</section>
+
+<nav class="pager">
+<a href="../guide/components.html"><span class="dir">← 上一页</span><span class="name">组件 API</span></a>
+<a class="next" href="../guide/runtime.html"><span class="dir">下一页 →</span><span class="name">数据流与状态</span></a>
+  </nav>
+</main>
+
+</div>
+</div>
+<footer class="foot">
+    <div class="foot-inner">
+      <div class="col">
+        <h4>开始</h4>
+        <a href="../index.html">概览</a>
+        <a href="../guide/installation.html">安装与接入</a>
+        <a href="../guide/changelog.html">更新日志</a>
+      </div>
+      <div class="col">
+        <h4>概念</h4>
+        <a href="../guide/adapter.html">适配器</a>
+        <a href="../guide/components.html">组件 API</a>
+        <a href="../guide/tools.html">前端工具</a>
+        <a href="../guide/runtime.html">数据流与状态</a>
+      </div>
+      <div class="col">
+        <h4>资源</h4>
+        <a href="https://github.com/handless-ui/auipage-react" target="_blank" rel="noopener">GitHub 仓库</a>
+        <a href="https://www.npmjs.com/package/@auipage/react" target="_blank" rel="noopener">npm 包</a>
+        <a href="https://zxl20070701.github.io/toolbox/#/npm-download?packages=@auipage/react&interval=7" target="_blank" rel="noopener">下载统计</a>
+        <a href="https://github.com/handless-ui/auipage" target="_blank" rel="noopener">auipage 框架</a>
+      </div>
+      <div class="sign">
+        <b>@auipage/react</b> — 智能体的 React 无头组件库<br>
+        MIT License · Copyright (c) <a href="https://zxl20070701.github.io/notebook/home.html" target="_blank" rel="noopener">zxl20070701</a>
+      </div>
+    </div>
+  </footer>
+
+<script src="../assets/js/docs.js?v=6ec71bb4"></script>
+
+
+</body>
+</html>

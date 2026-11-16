@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<!-- 本文件由 apis 生成，请勿直接编辑；改 apis 里的页面、模板或 site.json 后运行 npm run docs 重新生成。 -->
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>适配器 · @auipage/react 文档</title>
+<link rel="icon" href="../assets/img/logo.png">
+<meta name="description" content="ChatTransport、MessageHistory、ThreadList 三套适配器与片段数据形态。">
+<link rel="stylesheet" href="../assets/css/docs.css?v=6ec71bb4">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+<aside class="rail">
+    <a class="rail-brand" href="../index.html" aria-label="@auipage/react 文档首页">
+      <img class="rail-mark" src="../assets/img/logo.png" alt="@auipage/react" width="36" height="36">
+    </a>
+    <nav class="rail-nav" aria-label="主导航">
+      <a href="../index.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="2.5" width="6" height="6" rx="1"/><rect x="11.5" y="2.5" width="6" height="6" rx="1"/><rect x="2.5" y="11.5" width="6" height="6" rx="1"/><rect x="11.5" y="11.5" width="6" height="6" rx="1"/></svg><em>概览</em></a>
+      <a href="../guide/installation.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3v3M13 3v3M5 6h10v3a5 5 0 0 1-10 0z"/><path d="M10 14v3"/></svg><em>接入</em></a>
+      <a href="../guide/adapter.html" class="on"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3 3 7l7 4 7-4z"/><path d="M3 11l7 4 7-4"/><path d="M3 15l7 4 7-4"/></svg><em>概念</em></a>
+      <a href="../guide/changelog.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3h10v14H5z"/><path d="M8 7h4M8 10h4M8 13h2"/></svg><em>日志</em></a>
+    </nav>
+    <div class="rail-foot">
+      <a class="rail-gh" href="https://github.com/handless-ui/auipage-react" target="_blank" rel="noopener" title="GitHub 仓库"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4 3 10l4 6M13 4l4 6-4 6"/></svg></a>
+      <span class="rail-ver">v0.1.0</span>
+    </div>
+  </aside>
+
+<div class="mobiletop">
+    <a class="m-brand" href="../index.html"><img class="rail-mark" src="../assets/img/logo.png" alt="@auipage/react" width="36" height="36"><span class="m-name">@auipage/react</span></a>
+    <button class="m-burger" type="button" data-drawer="open" aria-controls="drawer" aria-expanded="false" aria-label="打开导航">
+      <i></i><i></i><i></i>
+    </button>
+  </div>
+<div class="scrim" data-drawer="close" hidden></div>
+  <div class="drawer" id="drawer" aria-hidden="true" hidden>
+    <div class="drawer-rail">
+      <button class="drawer-close" type="button" data-drawer="close" aria-label="关闭导航"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6l-12 12"/></svg></button>
+      <a class="rail-brand" href="../index.html"><img class="rail-mark" src="../assets/img/logo.png" alt="@auipage/react" width="36" height="36"></a>
+      <nav class="rail-nav" aria-label="主导航">
+      <a href="../index.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="2.5" width="6" height="6" rx="1"/><rect x="11.5" y="2.5" width="6" height="6" rx="1"/><rect x="2.5" y="11.5" width="6" height="6" rx="1"/><rect x="11.5" y="11.5" width="6" height="6" rx="1"/></svg><em>概览</em></a>
+      <a href="../guide/installation.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3v3M13 3v3M5 6h10v3a5 5 0 0 1-10 0z"/><path d="M10 14v3"/></svg><em>接入</em></a>
+      <a href="../guide/adapter.html" class="on"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3 3 7l7 4 7-4z"/><path d="M3 11l7 4 7-4"/><path d="M3 15l7 4 7-4"/></svg><em>概念</em></a>
+      <a href="../guide/changelog.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3h10v14H5z"/><path d="M8 7h4M8 10h4M8 13h2"/></svg><em>日志</em></a>
+    </nav>
+    </div>
+    <div class="drawer-tree">
+      <div class="drawer-tree-title">文档目录</div>
+      <aside class="tree">
+    <div class="group">开始</div><a href="../index.html" class=""><span class="n">00</span>概览</a><a href="../guide/installation.html" class=""><span class="n">01</span>安装与接入</a>
+    <div class="group">概念</div><a href="../guide/adapter.html" class="on"><span class="n">02</span>适配器</a><a href="../guide/components.html" class=""><span class="n">03</span>组件 API</a><a href="../guide/tools.html" class=""><span class="n">04</span>前端工具</a><a href="../guide/runtime.html" class=""><span class="n">05</span>数据流与状态</a>
+    <div class="group">参考</div><a href="../guide/changelog.html" class=""><span class="n">06</span>更新日志</a>
+  </aside>
+    </div>
+  </div>
+
+<div class="stage">
+<div class="shell">
+<aside class="tree">
+    <div class="group">开始</div><a href="../index.html" class=""><span class="n">00</span>概览</a><a href="../guide/installation.html" class=""><span class="n">01</span>安装与接入</a>
+    <div class="group">概念</div><a href="../guide/adapter.html" class="on"><span class="n">02</span>适配器</a><a href="../guide/components.html" class=""><span class="n">03</span>组件 API</a><a href="../guide/tools.html" class=""><span class="n">04</span>前端工具</a><a href="../guide/runtime.html" class=""><span class="n">05</span>数据流与状态</a>
+    <div class="group">参考</div><a href="../guide/changelog.html" class=""><span class="n">06</span>更新日志</a>
+  </aside>
+
+
+<main class="article">
+<div class="pagehead"><span class="ph-deco" aria-hidden="true"></span><div class="crumbs"><a href="../index.html">文档</a><span class="sep">/</span><span>概念</span><span class="sep">/</span><span>适配器</span></div>
+<h1><em>Concept 02</em>适配器</h1>
+<p class="lede">适配器是组件库与你的后端之间唯一的接缝。core 只认三套接口，业务侧实现它们，就能把任何 HTTP / SSE / WebSocket 接进来。</p>
+<div class="badges"><span class="badge">ChatTransportAdapter</span><span class="badge">MessageHistoryAdapter</span><span class="badge">ThreadListAdapter</span></div></div>
+
+<section class="block">
+  <div class="block-head"><span class="idx">01</span><h2>装配方式</h2></div>
+  <div class="prose">
+  <p>三个实例按固定 key 组装，传给 Provider：</p>
+  <div class="code">
+  <div class="code-head"><span class="file">adapter.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>const adapter = { ChatTransport, MessageHistory, ThreadList };</pre></div>
+</div>
+  <p style="margin-top:14px"><b>key 是约定死的</b>：<code>ChatTransport</code> / <code>MessageHistory</code> / <code>ThreadList</code>，
+  core 内部按这几个名字取实例，改名会直接报错。</p>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">02</span><h2>ChatTransport：对话接口</h2></div>
+  <div class="prose">
+  <div class="code">
+  <div class="code-head"><span class="file">chatTransport.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>new ChatTransportAdapter({
+    async *run({ messages, context }) { /* ... */ },
+    response(name, data) { /* ... */ },
+});</pre></div>
+</div>
+  <div class="table-wrap"><table class="spec">
+  <thead><tr><th>字段</th><th>类型</th><th>说明</th></tr></thead>
+  <tbody><tr><td><code>run</code></td><td><code>(params) =&gt; AsyncGenerator&lt;ContentPart&gt;</code></td><td>发起一轮对话，逐个 <code>yield</code> 片段。返回假值（void / null）时 core 直接结束本轮。</td></tr><tr><td><code>params.messages</code></td><td><code>ChatContentMessage[]</code></td><td>本轮新发送的消息（<code>role</code> + <code>content</code> 片段数组）。当前实现每轮一条，但保留数组形态。</td></tr><tr><td><code>params.context.history</code></td><td><code>HistoryMessageGroup[]</code></td><td>当前会话已入库的历史消息组，可预处理后再喂模型。</td></tr><tr><td><code>params.context.tools</code></td><td><code>{ description }[]</code></td><td>页面注册的工具描述，可直接序列化随请求发给模型。</td></tr><tr><td><code>response</code></td><td><code>(name, data) =&gt; unknown</code></td><td>反向通道。目前只用于前端工具结果回传：<code>response("tool-result", { id, status, result })</code>。</td></tr></tbody>
+</table></div>
+  <p style="margin-top:16px"><b>把回调式流读转成 AsyncGenerator</b>，用 <code>generator</code> 包一层即可：</p>
+  <div class="code">
+  <div class="code-head"><span class="file">chatTransport.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>import { ChatTransportAdapter, generator } from "@auipage/react";
+import { fetch } from "@auipage/fetch";
+
+new ChatTransportAdapter({
+    async *run({ messages, context }) {
+<span class="c">        // 思考态占位</span>
+        yield { type: "loading", text: "思考中..." };
+
+        yield* generator((callYield, callEnd, callError) =&gt; {
+            fetch({
+                url: "/api/chat",
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ messages, tools: context.tools }),
+            }).then(res =&gt; {
+                res.on("data", chunk =&gt; callYield(JSON.parse(chunk)));
+                res.on("end", callEnd);
+                res.on("error", callError);
+            }).catch(callError);
+        });
+    },
+    response(name, data) {
+        return post("/api/chat/" + name, data);
+    },
+});</pre></div>
+</div>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">03</span><h2>MessageHistory：历史读写</h2></div>
+  <div class="prose">
+  <div class="code">
+  <div class="code-head"><span class="file">messageHistory.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>new MessageHistoryAdapter({
+    async load(threadId) { /* HistoryMessageGroup[] */ },
+    async append(threadId, group) { /* void */ },
+});</pre></div>
+</div>
+  <ul>
+    <li><code>load</code> 在切换会话时调用；返回假值时 core 跳过历史加载（新会话场景）。</li>
+    <li><code>append</code> 每轮结束后把一整组消息写入会话，<code>group.messages</code> 与 <code>run</code> 收到的结构同构。</li>
+    <li>入库时不用手动剔除 <code>loading</code> 片段 —— 运行时渲染历史时会自动过滤。</li>
+  </ul>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">04</span><h2>ThreadList：会话管理</h2></div>
+  <div class="prose">
+  <div class="code">
+  <div class="code-head"><span class="file">threadList.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>new ThreadListAdapter({
+    async list() {},
+    async new(firstGroup) {},
+    async archive(threadId) {},
+    async unarchive(threadId) {},
+    async delete(threadId) {},
+});</pre></div>
+</div>
+  <div class="table-wrap"><table class="spec">
+  <thead><tr><th>方法</th><th>入参</th><th>返回</th><th>行为</th></tr></thead>
+  <tbody><tr><td><code>list</code></td><td>无</td><td><code>Thread[]</code></td><td>Provider 挂载时立即调用一次。</td></tr><tr><td><code>new</code></td><td><code>HistoryMessageGroup</code></td><td><code>Thread | void</code></td><td>用首轮消息建会话；返回假值会中止本轮后续流程。</td></tr><tr><td><code>archive</code></td><td><code>threadId</code></td><td><code>void</code></td><td>归档；归档的是当前会话时自动切到新建态。</td></tr><tr><td><code>unarchive</code></td><td><code>threadId</code></td><td><code>void</code></td><td>取消归档，不自动切换会话。</td></tr><tr><td><code>delete</code></td><td><code>threadId</code></td><td><code>void</code></td><td>删除；删当前会话时自动切到新建态。</td></tr></tbody>
+</table></div>
+  <p style="margin-top:16px">会话对象的最小约定：</p>
+  <div class="code">
+  <div class="code-head"><span class="file">types.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>interface ThreadListItem {
+    threadId: string;                 // 必填，列表 key 与操作都靠它
+    title: string;
+    status: "regular" | "archived";
+}</pre></div>
+</div>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">05</span><h2>片段数据形态</h2></div>
+  <div class="prose">
+  <p><code>run</code> 里 <code>yield</code> 的就是 <code>ContentPart</code>：</p>
+  <div class="code">
+  <div class="code-head"><span class="file">part</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>{ type: "text",     text: "正文增量" }
+{ type: "thinking",  text: "思维链增量" }
+{ type: "loading",  text: "思考中..." }
+{
+    type: "tool-call",
+    id: "call-xxx",          // 单次调用唯一标识，用作 part 稳定 key
+    name: "askFavoriteFruit",
+    args: { /* ... */ },
+    status: "success",       // 终态时补齐
+    result: /* ... */,
+    render: ToolComponent,   // 带 UI 的前端工具才有
+    ui: { status, result },  // 落库时记录 UI 交互结果
+}</pre></div>
+</div>
+  <div class="note" style="margin-top:16px">
+    <b>文本类片段是增量拼接的。</b>同类型连续片段会合并到同一个 part 的 <code>text</code> 上，
+    而不是每来一片就多一个 part —— 所以流式输出在 DOM 上是一段文字在变长，不是不断新建节点。
+  </div>
+  <p style="margin-top:16px">业务可以 <code>yield</code> 任意带 <code>type</code> 的对象（如
+  <code>{ type: "image", url }</code>），运行时会原样放进 <code>parts</code>，
+  由 <code>ChatContent.Parts</code> 的 render-prop 自己决定怎么渲染。</p>
+</div>
+</section>
+
+<nav class="pager">
+<a href="../guide/installation.html"><span class="dir">← 上一页</span><span class="name">安装与接入</span></a>
+<a class="next" href="../guide/components.html"><span class="dir">下一页 →</span><span class="name">组件 API</span></a>
+  </nav>
+</main>
+
+</div>
+</div>
+<footer class="foot">
+    <div class="foot-inner">
+      <div class="col">
+        <h4>开始</h4>
+        <a href="../index.html">概览</a>
+        <a href="../guide/installation.html">安装与接入</a>
+        <a href="../guide/changelog.html">更新日志</a>
+      </div>
+      <div class="col">
+        <h4>概念</h4>
+        <a href="../guide/adapter.html">适配器</a>
+        <a href="../guide/components.html">组件 API</a>
+        <a href="../guide/tools.html">前端工具</a>
+        <a href="../guide/runtime.html">数据流与状态</a>
+      </div>
+      <div class="col">
+        <h4>资源</h4>
+        <a href="https://github.com/handless-ui/auipage-react" target="_blank" rel="noopener">GitHub 仓库</a>
+        <a href="https://www.npmjs.com/package/@auipage/react" target="_blank" rel="noopener">npm 包</a>
+        <a href="https://zxl20070701.github.io/toolbox/#/npm-download?packages=@auipage/react&interval=7" target="_blank" rel="noopener">下载统计</a>
+        <a href="https://github.com/handless-ui/auipage" target="_blank" rel="noopener">auipage 框架</a>
+      </div>
+      <div class="sign">
+        <b>@auipage/react</b> — 智能体的 React 无头组件库<br>
+        MIT License · Copyright (c) <a href="https://zxl20070701.github.io/notebook/home.html" target="_blank" rel="noopener">zxl20070701</a>
+      </div>
+    </div>
+  </footer>
+
+<script src="../assets/js/docs.js?v=6ec71bb4"></script>
+
+
+</body>
+</html>

@@ -1,166 +1,118 @@
-# [@auipage/react](https://github.com/handless-ui/auipage-react)
-React版本的智能体UI组件库
+# @auipage/react
 
-<p>
-    <a href="https://zxl20070701.github.io/toolbox/#/npm-download?packages=@auipage/react&interval=7">
-        <img src="https://img.shields.io/npm/dm/@auipage/react.svg" alt="downloads">
-    </a>
-    <a href="https://www.npmjs.com/package/@auipage/react">
-        <img src="https://img.shields.io/npm/v/@auipage/react.svg" alt="npm">
-    </a>
-    <a href="https://github.com/handless-ui/auipage-react/issues">
-        <img src="https://img.shields.io/github/issues/handless-ui/auipage-react" alt="issue">
-    </a>
-    <a href="https://github.com/handless-ui/auipage-react" target='_blank'>
-        <img alt="GitHub repo stars" src="https://img.shields.io/github/stars/handless-ui/auipage-react?style=social">
-    </a>
-    <a href="https://github.com/handless-ui/auipage-react">
-        <img src="https://img.shields.io/github/forks/handless-ui/auipage-react" alt="forks">
-    </a>
-     <a href="https://gitee.com/handless-ui/auipage-react" target='_blank'>
-        <img alt="Gitee repo stars" src="https://gitee.com/handless-ui/auipage-react/badge/star.svg">
-    </a>
-    <a href="https://gitee.com/handless-ui/auipage-react">
-        <img src="https://gitee.com/handless-ui/auipage-react/badge/fork.svg" alt="forks">
-    </a>
-</p>
+> 智能体页面的 React **无头（Headless）组件库**：消息流、会话列表、输入框的状态与交互归库，样式全部归你。
 
-<img src="https://nodei.co/npm/@auipage/react.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM">
+[![npm](https://img.shields.io/npm/v/@auipage/react.svg)](https://www.npmjs.com/package/@auipage/react)
+[![license](https://img.shields.io/npm/l/@auipage/react.svg)](https://github.com/handless-ui/auipage-react/blob/main/LICENSE)
+[![downloads](https://img.shields.io/npm/dm/@auipage/react.svg)](https://www.npmjs.com/package/@auipage/react)
 
-## 如何使用？
+![workbench](./docs/assets/img/workbench.png)
 
-### 安装
+上图是文档站的在线 workbench：左侧会话列表、右侧消息流与输入区，全部由本库的组件 + 一份普通的 CSS 渲染，
+消息是真实逐字流式输出（`dist/auipage-react.iife.js` + 内存适配器）。
+
+## 它是什么
+
+做智能体页面，难的不是气泡样式，而是这些：流式片段怎么拼、会话怎么切、工具调用怎么从「运行中」走到「结果」、
+换一个模型后端要不要改界面。`@auipage/react` 把这些做成状态机，把样式全部留空。
+
+| 取向 | 说明 |
+| --- | --- |
+| **Headless** | 组件只挂稳定的 `aui-*` class 与 `data-*` 属性，**不带任何 CSS**。 |
+| **Adapter** | 三套适配器 `ChatTransport` / `MessageHistory` / `ThreadList` 把 HTTP、SSE、WebSocket 挡在外面。 |
+| **Composition** | 没有几十个 props 的"智能组件"：消息用 render-prop 逐条渲染，工具卡片就是你自己写的 React 组件。 |
+| **Type-safe** | 完整 `types/index.d.ts`，片段按 `part.type` 判别收窄。 |
+
+## 提供什么
+
+| 导出 | 类型 | 说明 |
+| --- | --- | --- |
+| `AuiRuntimeProvider` | 组件 | 装配 `AuiPage` + zustand store，向下提供 context |
+| `ChatContent` | 组件树 | `Root` / `Viewport` / `Messages` / `Parts` + `Composer.{Root,Input,Send}` |
+| `ThreadList` | 组件树 | `Root` / `New` / `Items` / `Item.{Root,Trigger,Title,Archive,UnArchive,Delete}` |
+| `ChatTransportAdapter` 等 | 类 | 三套适配器，从 `@auipage/core` 透出 |
+| `defineTool` | 函数 | 定义前端工具，`render` 是一个 React 组件 |
+| `generator` | 工具函数 | 把回调式流读取包成 `AsyncGenerator` |
+| `useAuiContext` 等 | Hook | 取 context / message / thread |
+
+## 安装
 
 ```bash
 npm install @auipage/react
-# 或
-yarn add @auipage/react
-# 或
-pnpm add @auipage/react
 ```
 
-### 快速上手
+依赖 `react ^18.3.1`、`@auipage/core ^0.1.0`、`zustand ^5.0.14`，无需引入任何 CSS。
 
-一个最小可运行的应用由三步构成：
-
-1. **准备适配器**：分别实现 `ChatTransportAdapter`（对话流式传输）、`MessageHistoryAdapter`（历史消息持久化）、`ThreadListAdapter`（会话列表管理）。
-2. **（可选）定义前端工具**：用 `defineTool` 声明可在浏览器端执行/交互的工具。
-3. **组合组件**：用 `AuiRuntimeProvider` 注入运行时，再渲染 `ChatContent` 与 `ThreadList` 的子组件树。
+## 最小接入
 
 ```tsx
-import { createRoot } from "react-dom/client";
 import {
-    AuiRuntimeProvider,
-    ChatContent,
-    ThreadList,
-    ChatTransportAdapter,
-    MessageHistoryAdapter,
-    ThreadListAdapter,
-    generator,
+    AuiRuntimeProvider, ChatContent, ThreadList,
+    ChatTransportAdapter, MessageHistoryAdapter, ThreadListAdapter
 } from "@auipage/react";
 
-// 1. 适配器：把 core 与你的后端接口对接起来
+// 1. 三套适配器，key 是约定死的
 const adapter = {
     ChatTransport: new ChatTransportAdapter({
         async *run({ messages, context }) {
-            // 显示思考状态
-            yield { type: "loading", text: "思考中..." };
-
-            // 把流式响应转成消息片段
-            yield* generator((callYield, callEnd, callError) => {
-                // 替换为你的流式接口
-                // callYield(chunk) 投递一个片段
-                // callEnd() 标记结束
-                // callError(err) 标记异常
-            });
+            yield { type: "text", text: "你好。" };
         },
-        response(name, data) {
-            // 智能体后续请求（如 tool-result）
-        },
+        response(name, data) { /* 工具结果回传 */ },
     }),
     MessageHistory: new MessageHistoryAdapter({
-        async load(threadId) { /* 返回历史消息 */ },
-        async append(threadId, messages) { /* 持久化新消息 */ },
+        async load(threadId) { /* 历史消息组 */ },
+        async append(threadId, group) { /* 落库 */ },
     }),
     ThreadList: new ThreadListAdapter({
-        async list() { /* 返回会话列表 */ },
-        async new(messages) { /* 新建会话 */ },
-        async archive(threadId) { /* 归档 */ },
-        async unarchive(threadId) { /* 取消归档 */ },
-        async delete(threadId) { /* 删除 */ },
+        async list() { /* 会话列表 */ },
+        async new(firstGroup) { /* 建会话 */ },
+        async archive(id) { }, async unarchive(id) { }, async delete(id) { },
     }),
 };
 
-// 2. 前端工具（可选）
-const tools = [];
-
+// 2. 挂 Provider + 搭界面
 function App() {
     return (
-        <AuiRuntimeProvider adapter={adapter} tools={tools}>
-            {/* 聊天视图 */}
-            <ChatContent.Root>
-                <ChatContent.Viewport>
-                    <ChatContent.Messages>
-                        {() => (
-                            <ChatContent.Parts>
-                                {({ part }) => {
-                                    if (part.type === "text") {
-                                        return <div>{part.text}</div>;
-                                    }
-                                    if (part.type === "loading") {
-                                        return <div>{part.text}</div>;
-                                    }
-                                    if (part.type === "thinking") {
-                                        return <div>{part.text}</div>;
-                                    }
-                                    if (part.type === "tool-call") {
-                                        return <div>{part.name}</div>;
-                                    }
-                                    return null;
-                                }}
-                            </ChatContent.Parts>
-                        )}
-                    </ChatContent.Messages>
-                </ChatContent.Viewport>
-                <ChatContent.Composer.Root>
-                    <ChatContent.Composer.Input />
-                    <ChatContent.Composer.Send>发送</ChatContent.Composer.Send>
-                </ChatContent.Composer.Root>
-            </ChatContent.Root>
-
-            {/* 会话列表 */}
+        <AuiRuntimeProvider adapter={adapter} tools={[]}>
             <ThreadList.Root>
                 <ThreadList.New>新建会话</ThreadList.New>
                 <ThreadList.Items>
                     {({ thread }) => (
                         <ThreadList.Item.Root>
                             <ThreadList.Item.Trigger>
-                                <ThreadList.Item.Title>
-                                    {thread.title || "新会话"}
-                                </ThreadList.Item.Title>
+                                <ThreadList.Item.Title>{thread.title}</ThreadList.Item.Title>
                             </ThreadList.Item.Trigger>
-                            <ThreadList.Item.Archive>归档</ThreadList.Item.Archive>
-                            <ThreadList.Item.UnArchive>取消归档</ThreadList.Item.UnArchive>
-                            <ThreadList.Item.Delete>删除</ThreadList.Item.Delete>
                         </ThreadList.Item.Root>
                     )}
                 </ThreadList.Items>
             </ThreadList.Root>
+
+            <ChatContent.Root>
+                <ChatContent.Viewport>
+                    <ChatContent.Messages>{() => <ChatContent.Parts />}</ChatContent.Messages>
+                </ChatContent.Viewport>
+                <ChatContent.Composer.Root>
+                    <ChatContent.Composer.Input />
+                    <ChatContent.Composer.Send>发送</ChatContent.Composer.Send>
+                </ChatContent.Composer.Root>
+            </ChatContent.Root>
         </AuiRuntimeProvider>
     );
 }
-
-createRoot(document.getElementById("app")!).render(<App />);
 ```
 
-### 更多文档
+## 不打包，直接引用
 
-上面的示例只展示了最小可运行结构，下面这些主题在 `docs/` 中分章节展开：
+```html
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@auipage/react@latest/dist/auipage-react.iife.js"></script>
+<script>
+    const { AuiRuntimeProvider, ChatContent, ThreadList } = AuipageReact;
+</script>
+```
 
-- [适配器详解](docs/adapter.md)：`ChatTransportAdapter` / `MessageHistoryAdapter` / `ThreadListAdapter` 的字段含义与实现要点
-- [组件 API](docs/components.md)：`ChatContent` 与 `ThreadList` 子组件树的结构、props、render-prop 用法
-- [前端工具](docs/tools.md)：`defineTool` 的 `execute` / `render` 协作模式，以及实时态与历史回读态的字段对齐
-- [数据流与状态](docs/runtime.md)：`AuiRuntimeProvider`、zustand store 与 core 编排器之间的关系
+IIFE 构建在加载时就把全局 `React` 当参数接收，**react 必须先于本库执行**；React 19 目前没有 UMD 构建，请锁 18。
 
 ## 版权
 

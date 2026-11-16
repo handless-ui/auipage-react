@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<!-- 本文件由 apis 生成，请勿直接编辑；改 apis 里的页面、模板或 site.json 后运行 npm run docs 重新生成。 -->
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>安装与接入 · @auipage/react 文档</title>
+<link rel="icon" href="../assets/img/logo.png">
+<meta name="description" content="@auipage/react 的依赖、安装、三步接入与 CDN 用法。">
+<link rel="stylesheet" href="../assets/css/docs.css?v=6ec71bb4">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+<aside class="rail">
+    <a class="rail-brand" href="../index.html" aria-label="@auipage/react 文档首页">
+      <img class="rail-mark" src="../assets/img/logo.png" alt="@auipage/react" width="36" height="36">
+    </a>
+    <nav class="rail-nav" aria-label="主导航">
+      <a href="../index.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="2.5" width="6" height="6" rx="1"/><rect x="11.5" y="2.5" width="6" height="6" rx="1"/><rect x="2.5" y="11.5" width="6" height="6" rx="1"/><rect x="11.5" y="11.5" width="6" height="6" rx="1"/></svg><em>概览</em></a>
+      <a href="../guide/installation.html" class="on"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3v3M13 3v3M5 6h10v3a5 5 0 0 1-10 0z"/><path d="M10 14v3"/></svg><em>接入</em></a>
+      <a href="../guide/adapter.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3 3 7l7 4 7-4z"/><path d="M3 11l7 4 7-4"/><path d="M3 15l7 4 7-4"/></svg><em>概念</em></a>
+      <a href="../guide/changelog.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3h10v14H5z"/><path d="M8 7h4M8 10h4M8 13h2"/></svg><em>日志</em></a>
+    </nav>
+    <div class="rail-foot">
+      <a class="rail-gh" href="https://github.com/handless-ui/auipage-react" target="_blank" rel="noopener" title="GitHub 仓库"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4 3 10l4 6M13 4l4 6-4 6"/></svg></a>
+      <span class="rail-ver">v0.1.0</span>
+    </div>
+  </aside>
+
+<div class="mobiletop">
+    <a class="m-brand" href="../index.html"><img class="rail-mark" src="../assets/img/logo.png" alt="@auipage/react" width="36" height="36"><span class="m-name">@auipage/react</span></a>
+    <button class="m-burger" type="button" data-drawer="open" aria-controls="drawer" aria-expanded="false" aria-label="打开导航">
+      <i></i><i></i><i></i>
+    </button>
+  </div>
+<div class="scrim" data-drawer="close" hidden></div>
+  <div class="drawer" id="drawer" aria-hidden="true" hidden>
+    <div class="drawer-rail">
+      <button class="drawer-close" type="button" data-drawer="close" aria-label="关闭导航"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6l-12 12"/></svg></button>
+      <a class="rail-brand" href="../index.html"><img class="rail-mark" src="../assets/img/logo.png" alt="@auipage/react" width="36" height="36"></a>
+      <nav class="rail-nav" aria-label="主导航">
+      <a href="../index.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="2.5" width="6" height="6" rx="1"/><rect x="11.5" y="2.5" width="6" height="6" rx="1"/><rect x="2.5" y="11.5" width="6" height="6" rx="1"/><rect x="11.5" y="11.5" width="6" height="6" rx="1"/></svg><em>概览</em></a>
+      <a href="../guide/installation.html" class="on"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3v3M13 3v3M5 6h10v3a5 5 0 0 1-10 0z"/><path d="M10 14v3"/></svg><em>接入</em></a>
+      <a href="../guide/adapter.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3 3 7l7 4 7-4z"/><path d="M3 11l7 4 7-4"/><path d="M3 15l7 4 7-4"/></svg><em>概念</em></a>
+      <a href="../guide/changelog.html" class=""><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3h10v14H5z"/><path d="M8 7h4M8 10h4M8 13h2"/></svg><em>日志</em></a>
+    </nav>
+    </div>
+    <div class="drawer-tree">
+      <div class="drawer-tree-title">文档目录</div>
+      <aside class="tree">
+    <div class="group">开始</div><a href="../index.html" class=""><span class="n">00</span>概览</a><a href="../guide/installation.html" class="on"><span class="n">01</span>安装与接入</a>
+    <div class="group">概念</div><a href="../guide/adapter.html" class=""><span class="n">02</span>适配器</a><a href="../guide/components.html" class=""><span class="n">03</span>组件 API</a><a href="../guide/tools.html" class=""><span class="n">04</span>前端工具</a><a href="../guide/runtime.html" class=""><span class="n">05</span>数据流与状态</a>
+    <div class="group">参考</div><a href="../guide/changelog.html" class=""><span class="n">06</span>更新日志</a>
+  </aside>
+    </div>
+  </div>
+
+<div class="stage">
+<div class="shell">
+<aside class="tree">
+    <div class="group">开始</div><a href="../index.html" class=""><span class="n">00</span>概览</a><a href="../guide/installation.html" class="on"><span class="n">01</span>安装与接入</a>
+    <div class="group">概念</div><a href="../guide/adapter.html" class=""><span class="n">02</span>适配器</a><a href="../guide/components.html" class=""><span class="n">03</span>组件 API</a><a href="../guide/tools.html" class=""><span class="n">04</span>前端工具</a><a href="../guide/runtime.html" class=""><span class="n">05</span>数据流与状态</a>
+    <div class="group">参考</div><a href="../guide/changelog.html" class=""><span class="n">06</span>更新日志</a>
+  </aside>
+
+
+<main class="article">
+<div class="pagehead"><span class="ph-deco" aria-hidden="true"></span><div class="crumbs"><a href="../index.html">文档</a><span class="sep">/</span><span>指南</span><span class="sep">/</span><span>安装与接入</span></div>
+<h1><em>Guide 01</em>安装与接入</h1>
+<p class="lede">先装包、再写三套适配器、最后挂 Provider —— 三步之后你就有了一套能用的对话界面骨架。</p>
+<div class="badges"><span class="badge">react 0.1.0</span><span class="badge hi">React 18</span><span class="badge">@auipage/core 0.1.0</span><span class="badge">zustand 5</span></div></div>
+
+<section class="block">
+  <div class="block-head"><span class="idx">01</span><h2>环境与依赖</h2></div>
+  <div class="prose">
+  <p>组件基于 React 与 zustand，运行时由 <code>@auipage/core</code> 提供。装 <code>@auipage/react</code> 时会自动带上它们。</p>
+  <div class="table-wrap"><table class="spec">
+  <thead><tr><th>依赖</th><th>版本</th><th>作用</th></tr></thead>
+  <tbody><tr><td><code>react</code> / <code>react-dom</code></td><td><code>^18.3.1</code></td><td>组件的宿主框架。React 19 目前没有 UMD 构建，用 CDN 直接引入时请锁 18。</td></tr><tr><td><code>@auipage/core</code></td><td><code>^0.1.0</code></td><td>编排器 <code>AuiPage</code> 与适配器基类、<code>generator</code> 都在这里。</td></tr><tr><td><code>zustand</code></td><td><code>^5.0.14</code></td><td>唯一的 React 侧状态源，组件用 selector 订阅。</td></tr><tr><td>TypeScript</td><td>可选</td><td>包里带 <code>types/index.d.ts</code>，无需额外装类型。</td></tr></tbody>
+</table></div>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">02</span><h2>安装</h2></div>
+  <div class="prose">
+  <div class="code">
+  <div class="code-head"><span class="file">terminal</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>npm install @auipage/react</pre></div>
+</div>
+  <p style="margin-top:14px">组件库没有样式文件，不需要额外引入 CSS。</p>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">03</span><h2>三步接入</h2></div>
+  <div class="prose">
+  <p><b>第一步：写适配器。</b>三个类实例按固定的 key 组装成一个对象，key 名由 core 约定。</p>
+  <div class="code">
+  <div class="code-head"><span class="file">adapter.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>import {
+    ChatTransportAdapter,
+    MessageHistoryAdapter,
+    ThreadListAdapter,
+} from "@auipage/react";
+
+const adapter = {
+    ChatTransport: new ChatTransportAdapter({ /* run / response */ }),
+    MessageHistory: new MessageHistoryAdapter({ /* load / append */ }),
+    ThreadList: new ThreadListAdapter({ /* list / new / archive / ... */ }),
+};</pre></div>
+</div>
+  <p style="margin-top:16px"><b>第二步：挂 Provider。</b>它会创建 <code>AuiPage</code> 与 store，
+  并在挂载瞬间调用一次 <code>adapter.ThreadList.list()</code> 拉会话列表。</p>
+  <div class="code">
+  <div class="code-head"><span class="file">App.tsx</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>import { AuiRuntimeProvider } from "@auipage/react";
+
+&lt;AuiRuntimeProvider adapter={adapter} tools={tools}&gt;
+    {/* ChatContent / ThreadList */}
+&lt;/AuiRuntimeProvider&gt;</pre></div>
+</div>
+  <p style="margin-top:16px"><b>第三步：搭界面。</b>组件树是命名空间结构，按层级组合即可，
+  样式通过 class 钩子接管。</p>
+  <p>每一步的细节分别见 <a href="./adapter.html">适配器</a>、<a href="./components.html">组件 API</a>、
+  <a href="./tools.html">前端工具</a>、<a href="./runtime.html">数据流与状态</a>。</p>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">04</span><h2>不打包，直接用 CDN</h2></div>
+  <div class="prose">
+  <p>包里提供了 IIFE 构建，全局名是 <code>AuipageReact</code>，依赖外部全局 <code>React</code>：</p>
+  <div class="code">
+  <div class="code-head"><span class="file">index.html</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>&lt;script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"&gt;&lt;\/script&gt;
+&lt;script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"&gt;&lt;\/script&gt;
+&lt;script src="https://unpkg.com/@auipage/react@latest/dist/auipage-react.iife.js"&gt;&lt;\/script&gt;
+
+&lt;script&gt;
+    const { AuiRuntimeProvider, ChatContent,
+            ChatTransportAdapter, MessageHistoryAdapter,
+            ThreadListAdapter } = AuipageReact;
+&lt;\/script&gt;</pre></div>
+</div>
+  <div class="note warn" style="margin-top:16px">
+    <b>顺序不能反。</b>IIFE 构建在加载时就把 <code>React</code> 当参数接收，
+    所以 react 必须先于 <code>auipage-react.iife.js</code> 执行。
+  </div>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">05</span><h2>本地跑起来</h2></div>
+  <div class="prose">
+  <p>仓库自带一个 playground 与 mock 服务：<code>oipage-cli</code> 同时起 mock（30000）与 vite（20000），
+  <code>/api</code> 走代理。</p>
+  <div class="code">
+  <div class="code-head"><span class="file">terminal</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>npm run dev
+# http://localhost:20000/</pre></div>
+</div>
+  <p style="margin-top:14px">mock 服务里预置了会话与历史消息，切换会话即可看到渲染效果；
+  发送消息会走 <code>server/chat.js</code>，默认接本地 ollama（<code>qwen3.5</code>）。</p>
+</div>
+</section>
+
+<nav class="pager">
+<a href="../index.html"><span class="dir">← 上一页</span><span class="name">概览</span></a>
+<a class="next" href="../guide/adapter.html"><span class="dir">下一页 →</span><span class="name">适配器</span></a>
+  </nav>
+</main>
+
+</div>
+</div>
+<footer class="foot">
+    <div class="foot-inner">
+      <div class="col">
+        <h4>开始</h4>
+        <a href="../index.html">概览</a>
+        <a href="../guide/installation.html">安装与接入</a>
+        <a href="../guide/changelog.html">更新日志</a>
+      </div>
+      <div class="col">
+        <h4>概念</h4>
+        <a href="../guide/adapter.html">适配器</a>
+        <a href="../guide/components.html">组件 API</a>
+        <a href="../guide/tools.html">前端工具</a>
+        <a href="../guide/runtime.html">数据流与状态</a>
+      </div>
+      <div class="col">
+        <h4>资源</h4>
+        <a href="https://github.com/handless-ui/auipage-react" target="_blank" rel="noopener">GitHub 仓库</a>
+        <a href="https://www.npmjs.com/package/@auipage/react" target="_blank" rel="noopener">npm 包</a>
+        <a href="https://zxl20070701.github.io/toolbox/#/npm-download?packages=@auipage/react&interval=7" target="_blank" rel="noopener">下载统计</a>
+        <a href="https://github.com/handless-ui/auipage" target="_blank" rel="noopener">auipage 框架</a>
+      </div>
+      <div class="sign">
+        <b>@auipage/react</b> — 智能体的 React 无头组件库<br>
+        MIT License · Copyright (c) <a href="https://zxl20070701.github.io/notebook/home.html" target="_blank" rel="noopener">zxl20070701</a>
+      </div>
+    </div>
+  </footer>
+
+<script src="../assets/js/docs.js?v=6ec71bb4"></script>
+
+
+</body>
+</html>

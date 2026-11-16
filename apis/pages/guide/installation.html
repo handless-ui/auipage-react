@@ -1,0 +1,105 @@
+<!--meta {"title": "安装与接入 · @auipage/react 文档", "desc": "@auipage/react 的依赖、安装、三步接入与 CDN 用法。", "section": "guide", "demos": false}-->
+<div class="pagehead"><span class="ph-deco" aria-hidden="true"></span><div class="crumbs"><a href="{{base}}index.html">文档</a><span class="sep">/</span><span>指南</span><span class="sep">/</span><span>安装与接入</span></div>
+<h1><em>Guide 01</em>安装与接入</h1>
+<p class="lede">先装包、再写三套适配器、最后挂 Provider —— 三步之后你就有了一套能用的对话界面骨架。</p>
+<div class="badges"><span class="badge">react 0.1.0</span><span class="badge hi">React 18</span><span class="badge">@auipage/core 0.1.0</span><span class="badge">zustand 5</span></div></div>
+
+<section class="block">
+  <div class="block-head"><span class="idx">01</span><h2>环境与依赖</h2></div>
+  <div class="prose">
+  <p>组件基于 React 与 zustand，运行时由 <code>@auipage/core</code> 提供。装 <code>@auipage/react</code> 时会自动带上它们。</p>
+  <div class="table-wrap"><table class="spec">
+  <thead><tr><th>依赖</th><th>版本</th><th>作用</th></tr></thead>
+  <tbody><tr><td><code>react</code> / <code>react-dom</code></td><td><code>^18.3.1</code></td><td>组件的宿主框架。React 19 目前没有 UMD 构建，用 CDN 直接引入时请锁 18。</td></tr><tr><td><code>@auipage/core</code></td><td><code>^0.1.0</code></td><td>编排器 <code>AuiPage</code> 与适配器基类、<code>generator</code> 都在这里。</td></tr><tr><td><code>zustand</code></td><td><code>^5.0.14</code></td><td>唯一的 React 侧状态源，组件用 selector 订阅。</td></tr><tr><td>TypeScript</td><td>可选</td><td>包里带 <code>types/index.d.ts</code>，无需额外装类型。</td></tr></tbody>
+</table></div>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">02</span><h2>安装</h2></div>
+  <div class="prose">
+  <div class="code">
+  <div class="code-head"><span class="file">terminal</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>npm install @auipage/react</pre></div>
+</div>
+  <p style="margin-top:14px">组件库没有样式文件，不需要额外引入 CSS。</p>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">03</span><h2>三步接入</h2></div>
+  <div class="prose">
+  <p><b>第一步：写适配器。</b>三个类实例按固定的 key 组装成一个对象，key 名由 core 约定。</p>
+  <div class="code">
+  <div class="code-head"><span class="file">adapter.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>import {
+    ChatTransportAdapter,
+    MessageHistoryAdapter,
+    ThreadListAdapter,
+} from "@auipage/react";
+
+const adapter = {
+    ChatTransport: new ChatTransportAdapter({ /* run / response */ }),
+    MessageHistory: new MessageHistoryAdapter({ /* load / append */ }),
+    ThreadList: new ThreadListAdapter({ /* list / new / archive / ... */ }),
+};</pre></div>
+</div>
+  <p style="margin-top:16px"><b>第二步：挂 Provider。</b>它会创建 <code>AuiPage</code> 与 store，
+  并在挂载瞬间调用一次 <code>adapter.ThreadList.list()</code> 拉会话列表。</p>
+  <div class="code">
+  <div class="code-head"><span class="file">App.tsx</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>import { AuiRuntimeProvider } from "@auipage/react";
+
+&lt;AuiRuntimeProvider adapter={adapter} tools={tools}&gt;
+    {/* ChatContent / ThreadList */}
+&lt;/AuiRuntimeProvider&gt;</pre></div>
+</div>
+  <p style="margin-top:16px"><b>第三步：搭界面。</b>组件树是命名空间结构，按层级组合即可，
+  样式通过 class 钩子接管。</p>
+  <p>每一步的细节分别见 <a href="./adapter.html">适配器</a>、<a href="./components.html">组件 API</a>、
+  <a href="./tools.html">前端工具</a>、<a href="./runtime.html">数据流与状态</a>。</p>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">04</span><h2>不打包，直接用 CDN</h2></div>
+  <div class="prose">
+  <p>包里提供了 IIFE 构建，全局名是 <code>AuipageReact</code>，依赖外部全局 <code>React</code>：</p>
+  <div class="code">
+  <div class="code-head"><span class="file">index.html</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>&lt;script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"&gt;&lt;\/script&gt;
+&lt;script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"&gt;&lt;\/script&gt;
+&lt;script src="https://unpkg.com/@auipage/react@latest/dist/auipage-react.iife.js"&gt;&lt;\/script&gt;
+
+&lt;script&gt;
+    const { AuiRuntimeProvider, ChatContent,
+            ChatTransportAdapter, MessageHistoryAdapter,
+            ThreadListAdapter } = AuipageReact;
+&lt;\/script&gt;</pre></div>
+</div>
+  <div class="note warn" style="margin-top:16px">
+    <b>顺序不能反。</b>IIFE 构建在加载时就把 <code>React</code> 当参数接收，
+    所以 react 必须先于 <code>auipage-react.iife.js</code> 执行。
+  </div>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">05</span><h2>本地跑起来</h2></div>
+  <div class="prose">
+  <p>仓库自带一个 playground 与 mock 服务：<code>oipage-cli</code> 同时起 mock（30000）与 vite（20000），
+  <code>/api</code> 走代理。</p>
+  <div class="code">
+  <div class="code-head"><span class="file">terminal</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>npm run dev
+# http://localhost:20000/</pre></div>
+</div>
+  <p style="margin-top:14px">mock 服务里预置了会话与历史消息，切换会话即可看到渲染效果；
+  发送消息会走 <code>server/chat.js</code>，默认接本地 ollama（<code>qwen3.5</code>）。</p>
+</div>
+</section>
+
+<nav class="pager">
+<a href="{{base}}index.html"><span class="dir">← 上一页</span><span class="name">概览</span></a>
+<a class="next" href="{{base}}guide/adapter.html"><span class="dir">下一页 →</span><span class="name">适配器</span></a>
+  </nav>

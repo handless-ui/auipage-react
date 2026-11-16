@@ -9,6 +9,8 @@
   "jsdelivr": "./dist/auipage-react.iife.js",
   "sideEffects": false,
   "scripts": {
+    "docs": "node apis/build.mjs",
+    "docs:dev": "node apis/build.mjs --serve",
     "dev": "oipage-cli run \"node ./server/index.js\" \"vite\"",
     "build": "vite build"
   },

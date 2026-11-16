@@ -1,0 +1,116 @@
+<!--meta {"title": "@auipage/react · 智能体页面的无头组件库", "desc": "auipage/react 提供 ChatContent、ThreadList 与三套适配器，状态与交互归库、样式归你。", "section": "home", "demos": true}-->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="kicker">headless · agent UI runtime</div>
+      <h1>把对话界面<br>拆成<span>状态</span>和<span>你的样式</span>。</h1>
+      <p class="lede">
+        @auipage/react 是智能体页面的 <b>Headless 组件库</b>：它只给你消息流、会话列表、输入框的状态机与交互，
+        一个像素的样式都不带。适配器接你的后端，render-prop 接你的设计系统。
+      </p>
+      <div class="install">
+        <span class="dollar">$</span>
+        <code>npm install @auipage/react</code>
+        <button data-copy="npm install @auipage/react">复制</button>
+      </div>
+      <div class="hero-actions">
+        <a class="btn" href="{{base}}guide/installation.html">开始接入</a>
+        <a class="btn btn-ghost" href="{{base}}guide/adapter.html">看适配器</a>
+      </div>
+    </div>
+    <div class="toc">
+      <h2>目录</h2>
+      <a href="{{base}}guide/installation.html"><span class="no">01</span>安装与接入<span class="kind">guide</span></a>
+      <a href="{{base}}guide/adapter.html"><span class="no">02</span>适配器<span class="kind">concept</span></a>
+      <a href="{{base}}guide/components.html"><span class="no">03</span>组件 API<span class="kind">concept</span></a>
+      <a href="{{base}}guide/tools.html"><span class="no">04</span>前端工具<span class="kind">concept</span></a>
+      <a href="{{base}}guide/runtime.html"><span class="no">05</span>数据流与状态<span class="kind">concept</span></a>
+      <a href="{{base}}guide/changelog.html"><span class="no">06</span>更新日志<span class="kind">log</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <section class="section">
+    <div class="section-head"><span class="no">01</span><h2>设计取向</h2></div>
+    <div class="cards">
+      <div class="card">
+        <div class="label">Headless</div>
+        <h3>状态归库，样式归你</h3>
+        <p>组件只挂稳定的 <code>aui-*</code> class 与 <code>data-*</code> 属性，不带任何 CSS。
+           气泡、侧栏、输入区长什么样，由你的设计系统决定。</p>
+      </div>
+      <div class="card">
+        <div class="label">Adapter</div>
+        <h3>后端无关</h3>
+        <p>三套适配器 <code>ChatTransport</code> / <code>MessageHistory</code> / <code>ThreadList</code>
+           把 HTTP、SSE、WebSocket 全部挡在外面，换模型、换服务端只改适配器。</p>
+      </div>
+      <div class="card">
+        <div class="label">Composition</div>
+        <h3>组合而非配置</h3>
+        <p>没有几十个 props 的"智能组件"。消息用 render-prop 逐条渲染，
+           片段按 <code>part.type</code> 收窄，工具卡片就是你自己写的一个组件。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><span class="no">02</span><h2>导出了什么</h2></div>
+    <div class="table-wrap"><table class="spec">
+  <thead><tr><th>导出</th><th>类型</th><th>说明</th></tr></thead>
+  <tbody><tr><td><code>AuiRuntimeProvider</code></td><td>组件</td><td>装配 <code>AuiPage</code> + zustand store，向下提供 context。</td></tr><tr><td><code>ChatContent</code></td><td>组件树</td><td><code>Root</code> / <code>Viewport</code> / <code>Messages</code> / <code>Parts</code> + <code>Composer</code> 三件。</td></tr><tr><td><code>ThreadList</code></td><td>组件树</td><td><code>Root</code> / <code>New</code> / <code>Items</code> / <code>Item.*</code>。</td></tr><tr><td><code>ChatTransportAdapter</code> 等</td><td>类</td><td>三套适配器，从 <code>@auipage/core</code> 透出。</td></tr><tr><td><code>defineTool</code></td><td>函数</td><td>定义前端工具，<code>render</code> 是一个 React 组件。</td></tr><tr><td><code>generator</code></td><td>工具函数</td><td>把回调式流读取包成 <code>AsyncGenerator</code>。</td></tr></tbody>
+</table></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><span class="no">03</span><h2>真实组件跑在这里</h2></div>
+    <div class="demo">
+      <div class="demo-head"><span class="dot"></span>LIVE WORKBENCH<span class="right">dist 产物 + 内存适配器 · 消息是逐字流式输出</span></div>
+      <div class="demo-body" data-demo="workbench"></div>
+    </div>
+    <div class="note" style="margin-top:14px">
+      这套界面用的是 <code>dist/auipage-react.iife.js</code> 与文档自己的 CSS：
+      组件没带样式，皮肤是文档写的 —— 换成你的设计系统只是另一份 CSS 的事。
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><span class="no">04</span><h2>最小骨架</h2></div>
+    <div class="code">
+  <div class="code-head"><span class="file">App.tsx</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>import { AuiRuntimeProvider, ChatContent, ThreadList } from "@auipage/react";
+
+function App() {
+    return (
+        &lt;AuiRuntimeProvider adapter={adapter} tools={tools}&gt;
+            &lt;ThreadList.Root&gt;
+                &lt;ThreadList.New&gt;新建会话&lt;/ThreadList.New&gt;
+                &lt;ThreadList.Items&gt;
+                    {({ thread }) =&gt; (
+                        &lt;ThreadList.Item.Root&gt;
+                            &lt;ThreadList.Item.Trigger&gt;
+                                &lt;ThreadList.Item.Title&gt;{thread.title}&lt;/ThreadList.Item.Title&gt;
+                            &lt;/ThreadList.Item.Trigger&gt;
+                        &lt;/ThreadList.Item.Root&gt;
+                    )}
+                &lt;/ThreadList.Items&gt;
+            &lt;/ThreadList.Root&gt;
+
+            &lt;ChatContent.Root&gt;
+                &lt;ChatContent.Viewport&gt;
+                    &lt;ChatContent.Messages&gt;
+                        {() =&gt; &lt;ChatContent.Parts /&gt;}
+                    &lt;/ChatContent.Messages&gt;
+                &lt;/ChatContent.Viewport&gt;
+                &lt;ChatContent.Composer.Root&gt;
+                    &lt;ChatContent.Composer.Input /&gt;
+                    &lt;ChatContent.Composer.Send&gt;发送&lt;/ChatContent.Composer.Send&gt;
+                &lt;/ChatContent.Composer.Root&gt;
+            &lt;/ChatContent.Root&gt;
+        &lt;/AuiRuntimeProvider&gt;
+    );
+}</pre></div>
+</div>
+  </section>
+</div>

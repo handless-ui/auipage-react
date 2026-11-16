@@ -1,0 +1,146 @@
+<!--meta {"title": "适配器 · @auipage/react 文档", "desc": "ChatTransport、MessageHistory、ThreadList 三套适配器与片段数据形态。", "section": "guide", "demos": false}-->
+<div class="pagehead"><span class="ph-deco" aria-hidden="true"></span><div class="crumbs"><a href="{{base}}index.html">文档</a><span class="sep">/</span><span>概念</span><span class="sep">/</span><span>适配器</span></div>
+<h1><em>Concept 02</em>适配器</h1>
+<p class="lede">适配器是组件库与你的后端之间唯一的接缝。core 只认三套接口，业务侧实现它们，就能把任何 HTTP / SSE / WebSocket 接进来。</p>
+<div class="badges"><span class="badge">ChatTransportAdapter</span><span class="badge">MessageHistoryAdapter</span><span class="badge">ThreadListAdapter</span></div></div>
+
+<section class="block">
+  <div class="block-head"><span class="idx">01</span><h2>装配方式</h2></div>
+  <div class="prose">
+  <p>三个实例按固定 key 组装，传给 Provider：</p>
+  <div class="code">
+  <div class="code-head"><span class="file">adapter.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>const adapter = { ChatTransport, MessageHistory, ThreadList };</pre></div>
+</div>
+  <p style="margin-top:14px"><b>key 是约定死的</b>：<code>ChatTransport</code> / <code>MessageHistory</code> / <code>ThreadList</code>，
+  core 内部按这几个名字取实例，改名会直接报错。</p>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">02</span><h2>ChatTransport：对话接口</h2></div>
+  <div class="prose">
+  <div class="code">
+  <div class="code-head"><span class="file">chatTransport.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>new ChatTransportAdapter({
+    async *run({ messages, context }) { /* ... */ },
+    response(name, data) { /* ... */ },
+});</pre></div>
+</div>
+  <div class="table-wrap"><table class="spec">
+  <thead><tr><th>字段</th><th>类型</th><th>说明</th></tr></thead>
+  <tbody><tr><td><code>run</code></td><td><code>(params) =&gt; AsyncGenerator&lt;ContentPart&gt;</code></td><td>发起一轮对话，逐个 <code>yield</code> 片段。返回假值（void / null）时 core 直接结束本轮。</td></tr><tr><td><code>params.messages</code></td><td><code>ChatContentMessage[]</code></td><td>本轮新发送的消息（<code>role</code> + <code>content</code> 片段数组）。当前实现每轮一条，但保留数组形态。</td></tr><tr><td><code>params.context.history</code></td><td><code>HistoryMessageGroup[]</code></td><td>当前会话已入库的历史消息组，可预处理后再喂模型。</td></tr><tr><td><code>params.context.tools</code></td><td><code>{ description }[]</code></td><td>页面注册的工具描述，可直接序列化随请求发给模型。</td></tr><tr><td><code>response</code></td><td><code>(name, data) =&gt; unknown</code></td><td>反向通道。目前只用于前端工具结果回传：<code>response("tool-result", { id, status, result })</code>。</td></tr></tbody>
+</table></div>
+  <p style="margin-top:16px"><b>把回调式流读转成 AsyncGenerator</b>，用 <code>generator</code> 包一层即可：</p>
+  <div class="code">
+  <div class="code-head"><span class="file">chatTransport.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>import { ChatTransportAdapter, generator } from "@auipage/react";
+import { fetch } from "@auipage/fetch";
+
+new ChatTransportAdapter({
+    async *run({ messages, context }) {
+<span class="c">        // 思考态占位</span>
+        yield { type: "loading", text: "思考中..." };
+
+        yield* generator((callYield, callEnd, callError) =&gt; {
+            fetch({
+                url: "/api/chat",
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ messages, tools: context.tools }),
+            }).then(res =&gt; {
+                res.on("data", chunk =&gt; callYield(JSON.parse(chunk)));
+                res.on("end", callEnd);
+                res.on("error", callError);
+            }).catch(callError);
+        });
+    },
+    response(name, data) {
+        return post("/api/chat/" + name, data);
+    },
+});</pre></div>
+</div>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">03</span><h2>MessageHistory：历史读写</h2></div>
+  <div class="prose">
+  <div class="code">
+  <div class="code-head"><span class="file">messageHistory.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>new MessageHistoryAdapter({
+    async load(threadId) { /* HistoryMessageGroup[] */ },
+    async append(threadId, group) { /* void */ },
+});</pre></div>
+</div>
+  <ul>
+    <li><code>load</code> 在切换会话时调用；返回假值时 core 跳过历史加载（新会话场景）。</li>
+    <li><code>append</code> 每轮结束后把一整组消息写入会话，<code>group.messages</code> 与 <code>run</code> 收到的结构同构。</li>
+    <li>入库时不用手动剔除 <code>loading</code> 片段 —— 运行时渲染历史时会自动过滤。</li>
+  </ul>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">04</span><h2>ThreadList：会话管理</h2></div>
+  <div class="prose">
+  <div class="code">
+  <div class="code-head"><span class="file">threadList.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>new ThreadListAdapter({
+    async list() {},
+    async new(firstGroup) {},
+    async archive(threadId) {},
+    async unarchive(threadId) {},
+    async delete(threadId) {},
+});</pre></div>
+</div>
+  <div class="table-wrap"><table class="spec">
+  <thead><tr><th>方法</th><th>入参</th><th>返回</th><th>行为</th></tr></thead>
+  <tbody><tr><td><code>list</code></td><td>无</td><td><code>Thread[]</code></td><td>Provider 挂载时立即调用一次。</td></tr><tr><td><code>new</code></td><td><code>HistoryMessageGroup</code></td><td><code>Thread | void</code></td><td>用首轮消息建会话；返回假值会中止本轮后续流程。</td></tr><tr><td><code>archive</code></td><td><code>threadId</code></td><td><code>void</code></td><td>归档；归档的是当前会话时自动切到新建态。</td></tr><tr><td><code>unarchive</code></td><td><code>threadId</code></td><td><code>void</code></td><td>取消归档，不自动切换会话。</td></tr><tr><td><code>delete</code></td><td><code>threadId</code></td><td><code>void</code></td><td>删除；删当前会话时自动切到新建态。</td></tr></tbody>
+</table></div>
+  <p style="margin-top:16px">会话对象的最小约定：</p>
+  <div class="code">
+  <div class="code-head"><span class="file">types.ts</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>interface ThreadListItem {
+    threadId: string;                 // 必填，列表 key 与操作都靠它
+    title: string;
+    status: "regular" | "archived";
+}</pre></div>
+</div>
+</div>
+</section>
+
+<section class="block">
+  <div class="block-head"><span class="idx">05</span><h2>片段数据形态</h2></div>
+  <div class="prose">
+  <p><code>run</code> 里 <code>yield</code> 的就是 <code>ContentPart</code>：</p>
+  <div class="code">
+  <div class="code-head"><span class="file">part</span><button data-copy="">复制</button></div>
+  <div class="code-body"><pre>{ type: "text",     text: "正文增量" }
+{ type: "thinking",  text: "思维链增量" }
+{ type: "loading",  text: "思考中..." }
+{
+    type: "tool-call",
+    id: "call-xxx",          // 单次调用唯一标识，用作 part 稳定 key
+    name: "askFavoriteFruit",
+    args: { /* ... */ },
+    status: "success",       // 终态时补齐
+    result: /* ... */,
+    render: ToolComponent,   // 带 UI 的前端工具才有
+    ui: { status, result },  // 落库时记录 UI 交互结果
+}</pre></div>
+</div>
+  <div class="note" style="margin-top:16px">
+    <b>文本类片段是增量拼接的。</b>同类型连续片段会合并到同一个 part 的 <code>text</code> 上，
+    而不是每来一片就多一个 part —— 所以流式输出在 DOM 上是一段文字在变长，不是不断新建节点。
+  </div>
+  <p style="margin-top:16px">业务可以 <code>yield</code> 任意带 <code>type</code> 的对象（如
+  <code>{ type: "image", url }</code>），运行时会原样放进 <code>parts</code>，
+  由 <code>ChatContent.Parts</code> 的 render-prop 自己决定怎么渲染。</p>
+</div>
+</section>
+
+<nav class="pager">
+<a href="{{base}}guide/installation.html"><span class="dir">← 上一页</span><span class="name">安装与接入</span></a>
+<a class="next" href="{{base}}guide/components.html"><span class="dir">下一页 →</span><span class="name">组件 API</span></a>
+  </nav>
